@@ -100,9 +100,13 @@ function start(opts) {
 
   const data = clone(config.data || {});
 
-  if (opts.cors) {
-    app.use(cors());
-  }
+  app.use(cors({
+    origin: '*',
+    credentials: false,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    preflightContinue: true,
+    exposedHeader: 'Access-Control-Allow-Origin'
+  }));
 
   app.use('/data/', serve_data.init(options, serving.data));
   app.use('/styles/', serve_style.init(options, serving.styles));
